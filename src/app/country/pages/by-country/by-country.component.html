@@ -1,29 +1,47 @@
-<h2>Por pais</h2>
-<hr>
-
-<div class="row">
-    <div class="col">
-        <!-- cuando se ejecute el evento onEnter ejecuta el metodo search enviando lo que venga en el event
-        como argumento -->
-        <app-country-input 
-            (onEnter)="search($event)"
-            (onDebounce)="suggestions($event)"
-            inputPlaceholder="Buscar pais...">
-        </app-country-input>
+<div class="animate__animated animate__fadeIn">
+    <h2>Por pais</h2>
+    <hr>
+    
+    <div class="row">
+        <div class="col">
+            <!-- cuando se ejecute el evento onEnter ejecuta el metodo search enviando lo que venga en el event
+            como argumento -->
+            <app-country-input 
+                (onEnter)="search($event)"
+                (onDebounce)="suggestions($event)"
+                inputPlaceholder="Buscar pais...">
+            </app-country-input>
+        </div>
     </div>
-</div>
 
-<hr>
-<div *ngIf="error" 
-    class="alert alert-danger">
-    No se encontro nada con el termino: {{ term }}
-</div>
-
-<div *ngIf="countries.length" class="row">
-    <div class="col">
-
-        <app-country-table [countries]="countries">
-        </app-country-table>
-
+    <ul *ngIf="showSuggestions"
+        class="list-group">
+        <li *ngFor="let country of countriesSuggestions"
+            class="list-group-item list-group-item-action">
+            <a [routerLink]="['/pais', country.alpha2Code]" class="nav-link">
+                {{ country.name }}
+            </a>
+        </li>
+        <li class="list-group-item list-group-item-action"
+            (click)="search(term)">
+            <a class="nav-link">
+                Buscar "{{ term }}"
+            </a>
+        </li>
+    </ul>
+    
+    <hr>
+    <div *ngIf="error" 
+        class="alert alert-danger">
+        No se encontro nada con el termino: {{ term }}
+    </div>
+    
+    <div *ngIf="countries.length" class="row">
+        <div class="col">
+    
+            <app-country-table [countries]="countries">
+            </app-country-table>
+    
+        </div>
     </div>
 </div>
